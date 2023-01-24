@@ -59,8 +59,8 @@ struct Opt {
     pid: Option<i32>
     {%- endif %}
 }
-{%- endif %}
 
+{%- endif %}
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
 {%- if program_types_with_opts contains program_type %}
