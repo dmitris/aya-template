@@ -2,10 +2,7 @@
 #![no_main]
 {% case program_type -%}
 {%- when "kprobe" %}
-use aya_bpf::{
-    macros::kprobe,
-    programs::ProbeContext,
-};
+use aya_bpf::{macros::kprobe, programs::ProbeContext};
 use aya_log_ebpf::info;
 
 #[kprobe(name="{{crate_name}}")]
@@ -27,7 +24,7 @@ use aya_bpf::{
 };
 use aya_log_ebpf::info;
 
-#[kretprobe(name="{{crate_name}}")]
+#[kretprobe(name = "{{crate_name}}")]
 pub fn {{crate_name}}(ctx: ProbeContext) -> u32 {
     match try_{{crate_name}}(ctx) {
         Ok(ret) => ret,
