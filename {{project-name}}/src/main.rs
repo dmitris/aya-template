@@ -48,19 +48,19 @@ use tokio::signal;
 {% if program_types_with_opts contains program_type -%}
 #[derive(Debug, Parser)]
 struct Opt {
-    {% if program_type == "xdp" or program_type == "classifier" -%}
+{%- if program_type == "xdp" or program_type == "classifier" %}
     #[clap(short, long, default_value = "eth0")]
     iface: String,
-    {%- elsif program_type == "sock_ops" or program_type == "cgroup_skb" or program_type == "cgroup_sysctl" or program_type == "cgroup_sockopt" -%}
+{% elsif program_type == "sock_ops" or program_type == "cgroup_skb" or program_type == "cgroup_sysctl" or program_type == "cgroup_sockopt" %}
     #[clap(short, long, default_value = "/sys/fs/cgroup/unified")]
     cgroup_path: String,
-    {%- elsif program_type == "uprobe" or program_type == "uretprobe" -%}
+{% elsif program_type == "uprobe" or program_type == "uretprobe" %}
     #[clap(short, long)]
     pid: Option<i32>
-    {%- endif %}
+{% endif -%}
 }
 
-{%- endif %}
+{% endif -%}
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
 {%- if program_types_with_opts contains program_type %}
