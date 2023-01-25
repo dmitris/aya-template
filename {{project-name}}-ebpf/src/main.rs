@@ -324,10 +324,7 @@ fn try_{{crate_name}}(ctx: RawTracePointContext) -> Result<i32, i32> {
 }
 {%- when "perf_event" %}
 use aya_bpf::{
-    helpers::bpf_get_smp_processor_id,
-    macros::perf_event,
-    programs::PerfEventContext,
-    BpfContext,
+    helpers::bpf_get_smp_processor_id, macros::perf_event, programs::PerfEventContext, BpfContext,
 };
 use aya_log_ebpf::info;
 
@@ -342,8 +339,14 @@ pub fn {{crate_name}}(ctx: PerfEventContext) -> u32 {
 fn try_{{crate_name}}(ctx: PerfEventContext) -> Result<u32, u32> {
     let cpu = unsafe { bpf_get_smp_processor_id() };
     match ctx.pid() {
-        0 => info!(&ctx, "perf_event '{{crate_name}}' triggered on CPU {}, running a kernel task", cpu),
-        pid => info!(&ctx, "perf_event '{{crate_name}}' triggered on CPU {}, running PID {}", cpu, pid),
+        0 => info!(
+            &ctx,
+            "perf_event 'perftest' triggered on CPU {}, running a kernel task", cpu
+        ),
+        pid => info!(
+            &ctx,
+            "perf_event 'perftest' triggered on CPU {}, running PID {}", cpu, pid
+        ),
     }
 
     Ok(0)
